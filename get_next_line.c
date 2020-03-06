@@ -6,15 +6,24 @@
 /*   By: edessain <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/20 09:42:04 by edessain          #+#    #+#             */
-/*   Updated: 2019/12/14 11:22:30 by edessain         ###   ########.fr       */
+/*   Updated: 2020/03/06 13:55:49 by edessain         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+//#define BUFFER_SIZE 40
 
- 
+int		ft_free(char **string, int nb)
+{
+	if (*string)
+	{
+		free(*string);
+		*string = NULL;
+	}
+	return (nb);
+}
 
-char	*ft_strchr(const char *str, int c)
+char	*ft_strchr_2(const char *str, int c)
 {
 	int			i;
 
@@ -68,7 +77,7 @@ int		ft_read(int fd, char **line, char *rest)
 	if (rest == NULL)
 		if ((*line = ft_strndup("", '\0')) == NULL)
 			return (-1);
-	while ((ft_strchr(*line, '\n') == NULL) &&
+	while ((ft_strchr_2(*line, '\n') == NULL) &&
 			(ret = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		tmp = *line;
@@ -94,7 +103,7 @@ int		get_next_line(int fd, char **line)
 		ft_free(&rest, 1);
 	if ((rest = ft_strndup(ft_strchr(*line, '\n'), '\0')) == NULL)
 		return (ft_free(&rest, -1));
-	if (ft_strchr(*line, '\n') == NULL)
+	if (ft_strchr_2(*line, '\n') == NULL)
 		return (ft_free(&rest, 0));
 	tmp = *line;
 	if ((*line = ft_strndup(*line, '\n')) == NULL)
